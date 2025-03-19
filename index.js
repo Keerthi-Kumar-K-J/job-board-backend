@@ -3,7 +3,6 @@ const express = require('express');
 const sequelize = require('./models/index'); // Import Sequelize setup
 const app = express();
 
-const PORT = process.env.PORT || 3000;
 
 // Home Route
 app.get('/', (req, res) => {
