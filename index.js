@@ -1,18 +1,28 @@
 require('dotenv').config();
 const express = require('express');
-const cors = require('cors');
-const db = require('./database/db');
-const authRoutes = require('./auth'); // Import auth.js
-const jobRoutes = require('./jobRoutes'); // Import job routes
-const { authenticate } = require('./auth'); // Import authentication middleware
-
+const sequelize = require('./models/index'); // Import Sequelize setup
 const app = express();
-app.use(express.json());
-app.use(cors());
+
+const PORT = process.env.PORT || 3000;
 
 // Home Route
 app.get('/', (req, res) => {
     res.send('Job Board API is running!');
+});
+
+sequelize.sync()
+  .then(() => {
+    console.log('Database connected & synced!');
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error('Database connection error:', err);
+  });
+
+app.get('/', (req, res) => {
+  res.send('Backend is running successfully!');
 });
 
 // Auth Routes
